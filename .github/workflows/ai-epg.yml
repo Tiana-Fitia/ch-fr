@@ -1,0 +1,15 @@
+name: AI EPG Auto-Fill
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # toutes les 6 h
+  workflow_dispatch:
+jobs:
+  epg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - run: python ai/epg/epg_auto_fill.py
