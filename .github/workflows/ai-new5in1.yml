@@ -1,0 +1,15 @@
+name: AI New 5-in-1
+on:
+  schedule:
+    - cron: '0 */6 * * *'   # toutes les 6 h
+  workflow_dispatch:
+jobs:
+  ai:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install qrcode[pil] requests
+      - run: python ai/extra/ai_new5in1.py
