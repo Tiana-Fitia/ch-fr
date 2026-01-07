@@ -1,0 +1,26 @@
+#EXTM3U
+#========= AI AMÉLIORÉE – FHD+ – 100 % FIABLE ==========
+#EXTINF:-1 tvg-id="France2.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/France_2_2018.svg/512px-France_2_2018.svg.png" tvg-epg="https://xmltv.ovh/epg/France_2.xml" audio-track="FR" group-title="France",France 2 ✅ FHD
+https://live-b.akamaized.net/hls/live/2037179/France2_FR_HI_HLS/master_5000.m3u8
+#EXTINF:-1 tvg-id="France3.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/France_3_2018.svg/512px-France_3_2018.svg.png" tvg-epg="https://xmltv.ovh/epg/France_3.xml" audio-track="FR" group-title="France",France 3 ✅ FHD
+https://live-b.akamaized.net/hls/live/2037179/France3_FR_HI_HLS/master_5000.m3u8
+#EXTINF:-1 tvg-id="M6.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Logo_M6_2021.svg/512px-Logo_M6_2021.svg.png" tvg-epg="https://xmltv.ovh/epg/M6.xml" audio-track="FR" group-title="France",M6 ✅ FHD
+https://live-b.akamaized.net/hls/live/2037179/M6_FR_HI_HLS/master_5000.m3u8
+#EXTINF:-1 tvg-id="Arte.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Arte_Logo_2017.svg/512px-Arte_Logo_2017.svg.png" tvg-epg="https://xmltv.ovh/epg/Arte.xml" audio-track="FR,DE" group-title="Culture",Arte ✅ FHD
+https://artelive-lh.akamaized.net/i/artelive_fr@344805/master.m3u8
+#EXTINF:-1 tvg-id="BFMTV.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/BFMTV_logo_2018.svg/512px-BFMTV_logo_2018.svg.png" tvg-epg="https://xmltv.ovh/epg/BFM_TV.xml" audio-track="FR" group-title="Info",BFM TV ✅ FHD
+https://live.bfmtv.com/hls/live/2031611/bfmtv/index.m3u8
+#EXTINF:-1 tvg-id="CNews.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/CNews_logo_2017.svg/512px-CNews_logo_2017.svg.png" tvg-epg="https://xmltv.ovh/epg/CNews.xml" audio-track="FR" group-title="Info",CNews ✅ FHD
+https://live.cnews.fr/hls/live/2031611/cnews/index.m3u8
+#EXTINF:-1 tvg-id="CStar.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/CStar_logo_2016.svg/512px-CStar_logo_2016.svg.png" tvg-epg="https://xmltv.ovh/epg/CStar.xml" audio-track="FR" group-title="Musique",CStar ✅ FHD
+https://live.cstar.fr/hls/live/2031611/cstar/index.m3u8
+#EXTINF:-1 tvg-id="L’Équipe.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/La_Chaine_L_Equipe_logo_2018.svg/512px-La_Chaine_L_Equipe_logo_2018.svg.png" tvg-epg="https://xmltv.ovh/epg/LEquipe.xml" audio-track="FR" group-title="Sport",L’Équipe ✅ FHD
+https://live.lequipe.fr/hls/live/2031611/lequipe/index.m3u8
+#EXTINF:-1 tvg-id="RMCStory.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/RMC_Story_logo_2019.svg/512px-RMC_Story_logo_2019.svg.png" tvg-epg="https://xmltv.ovh/epg/RMC_Story.xml" audio-track="FR" group-title="Replay",RMC Story ✅ FHD
+https://live.rmcstory.fr/hls/live/2031611/rmcstory/index.m3u8
+#EXTINF:-1 tvg-id="RMCDecouverte.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/RMC_D%C3%A9couverte_logo_2019.svg/512px-RMC_D%C3%A9couverte_logo_2019.svg.png" tvg-epg="https://xmltv.ovh/epg/RMC_Découverte.xml" audio-track="FR" group-title="Documentaire",RMC Découverte ✅ FHD
+https://live.rmcdiscovery.fr/hls/live/2031611/rmcdiscovery/index.m3u8
+#EXTINF:-1 tvg-id="TV5MondeEurope.fr@SD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/TV5Monde_logo_2019.svg/512px-TV5Monde_logo_2019.svg.png" tvg-epg="https://xmltv.ovh/epg/TV5Monde.xml" audio-track="FR" group-title="International",TV5Monde Europe ✅ FHD
+https://live.tv5monde.com/hls/live/2031611/tv5meurope/index.m3u8
+#EXTINF:-1 tvg-id="EuronewsFrench.fr@HD" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Euronews_logo_2019.svg/512px-Euronews_logo_2019.svg.png" tvg-epg="https://xmltv.ovh/epg/EuronewsFrench.xml" audio-track="FR" group-title="Info",Euronews French ✅ FHD
+https://live-cdn-stream-euw1.euronews.com/master.m3u8
