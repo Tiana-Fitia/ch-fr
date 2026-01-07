@@ -25,7 +25,7 @@ Playlist **100 % légale** des chaînes **françaises gratuites et en clair** �
 
 ## 📥 Télécharger la playlist
 
-🔗 **[Télécharger ch-fr.m3u](https://raw.githubusercontent.com/Tiana-Fitia/main/ch-fr.m3u)**
+🔗 **[Télécharger ch-fr.m3u](https://raw.githubusercontent.com/Tiana-Fitia/ch-fr/main/ch-fr.m3u)**
 
 ---
 
