@@ -1,0 +1,27 @@
+name: AI All Unified
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+jobs:
+  ai:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install ALL deps
+        run: |
+          sudo apt update
+          sudo apt install -y espeak ffmpeg
+          pip install requests qrcode[pil] openai-whisper
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Run ALL AI scripts
+        run: python ai/ALL/run_all_ai.py
