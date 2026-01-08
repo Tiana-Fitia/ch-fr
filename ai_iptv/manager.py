@@ -1,24 +1,230 @@
-import os, json, asyncio, time, aiohttp
-M3U_IN="streams/input.m3u"; M3U_OUT="streams/ch-fr.m3u8"; MAX_MS=150
+import os, json, asyncio, time, aiohttp, random
+M3U_IN="streams/input.m3u"; M3U_OUT="streams/ch-fr.m3u8"; MAX_MS=150; MIN_H=720
+# ▼▼▼  REMPLACE les URLs ci-dessous par TES propres liens  ▼▼▼
+POOL=[
+"https://viamotionhsi.netplus.ch/live/eds/6ter/browser-HLS8/6ter.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/6ter/browser-dash/6ter.mpd"
+"https://live-20minutestv.digiteka.com/1961167769/index.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/ab1/browser-dash/ab1.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/ab1/browser-HLS8/ab1.m3u8"
+"https://d3b73b34o7cvkq.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-gz2sgqzp076kf/adn.m3u8"
+"https://africa24.vedge.infomaniak.com/livecast/ikafrica24/manifest.m3u8"
+"https://edge20.vedge.infomaniak.com/livecast/ikafrica24english/manifest.m3u8"
+"https://africa24.vedge.infomaniak.com/livecast/ikafrica24sport/manifest.m3u8"
+"https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/africanews/africanews-en.m3u8"
+"https://cdn-euronews.akamaized.net/live/eds/africanews-fr/25050/index.m3u8"
+"https://edge13.vedge.infomaniak.com/livecast/ikadhtv/manifest.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/angerstele.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/animaux/browser-dash/animaux.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/animaux/browser-HLS8/animaux.m3u8"
+"https://live-antenne-reunion.zeop.tv/live/c3eds/antreunihd/hls_fta/antreunihd.m3u8?location=ZEOP01"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/arabel.m3u8"
+"https://artesimulcast.akamaized.net/hls/live/2031003/artelive_fr/index.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/artehd/browser-HLS8/artehd.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/bsmart.m3u8"
+"https://d1ib1gsg71oarf.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-scp7wda722jph/BFM2_FR.m3u8"
+"https://live-cdn-stream-euw1.bfmb.bct.nextradiotv.com/master.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/bfmbusiness/browser-HLS8/bfmbusiness.m3u8"
+"https://live-cdn-bfmtvlyo-euw1.bfmtv.bct.nextradiotv.com/master.m3u8"
+"https://live-cdn-stream-euw1.bfmtv.bct.nextradiotv.com/master.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/bfmtv/browser-HLS8/bfmtv.m3u8"
+"https://stream2.mandarine.media/brionnaistv/brionnaistv/playlist.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/d17/browser-HLS8/d17.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/d17/browser-dash/d17.mpd"
+"https://do7nccdsswstc.cloudfront.net/v1/manifest/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-1aso0bc668saa/a5233c83-f772-4a81-959a-45ec7877ef61/5.m3u8"
+"https://event.vedge.infomaniak.com/livecast/ikcanal32_4/manifest.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/canalj/browser-HLS8/canalj.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/canalplusclair/browser-HLS8/canalplusclair.m3u8"
+"https://vdo2.pro-fhi.net:3628/live/uppodsfqlive.m3u8"
+"https://raw.githubusercontent.com/LeBazarDeBryan/XTVZ_/main/Stream/Live/CNews.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/itele/browser-HLS8/itele.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/cnews.m3u8"
+"https://dbmtv.vedge.infomaniak.com/livecast/dbmtv/playlist.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/emciafrique.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/emcieurope.m3u8"
+"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/equidia/live2.m3u8"
+"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/equidia/racingmag.m3u8"
+"https://dash4.antik.sk/live/test_euronews/playlist.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/euronews/browser-HLS8/euronews.m3u8"
+"https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/euronews-spa/euronews-es.m3u8"
+"https://edge-fast3.evrideo.tv/bfdbb576-83f7-11f0-9f89-0200170e3e04_1000028043_HLS/manifest.m3u8"
+"http://69.64.57.208/france2/mono.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/france2hd/browser-dash/france2hd.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/france2hd/browser-HLS8/france2hd.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/france3hd/browser-dash/france3hd.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/france3hd/browser-HLS8/france3hd.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/france4hd/browser-dash/france4hd.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/france4hd/browser-HLS8/france4hd.m3u8"
+"http://69.64.57.208/france5/mono.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/france5hd/browser-dash/france5hd.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/france5hd/browser-HLS8/france5hd.m3u8"
+"https://dash4.antik.sk/live/test_france24_france/playlist.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/france24/browser-HLS8/france24.m3u8"
+"https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037222/F24_AR_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037222/F24_AR_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037222/F24_AR_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037222-b/F24_AR_HI_HLS/master_500.m3u8"
+"https://live.france24.com/hls/live/2037222/F24_AR_HI_HLS/master_500.m3u8"
+"https://amg00106-france24-france24-samsunguk-qvpp8.amagi.tv/playlist/amg00106-france24-france24-samsunguk/playlist.m3u8"
+"https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037218/F24_EN_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037218/F24_EN_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037218/F24_EN_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037218-b/F24_EN_HI_HLS/master_500.m3u8"
+"https://live.france24.com/hls/live/2037218/F24_EN_HI_HLS/master_500.m3u8"
+"https://dash3.antik.sk/live/test_france24_eng/playlist.m3u8"
+"https://live.france24.com/hls/live/2037220-b/F24_ES_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037220/F24_ES_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037220-b/F24_ES_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037220/F24_ES_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037220-b/F24_ES_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037220/F24_ES_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037220-b/F24_ES_HI_HLS/master_500.m3u8"
+"https://live.france24.com/hls/live/2037220/F24_ES_HI_HLS/master_500.m3u8"
+"https://live.france24.com/hls/live/2037179-b/F24_FR_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_5000.m3u8"
+"https://live.france24.com/hls/live/2037179-b/F24_FR_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_2300.m3u8"
+"https://live.france24.com/hls/live/2037179-b/F24_FR_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_900.m3u8"
+"https://live.france24.com/hls/live/2037179-b/F24_FR_HI_HLS/master_500.m3u8"
+"https://live.france24.com/hls/live/2037179/F24_FR_HI_HLS/master_500.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/franceinter.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/franceinfotv.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/franceinfo/browser-HLS8/franceinfo.m3u8"
+"http://mv2.tvfrancophonie.org/live/Stream1/playlist.m3u8"
+"https://5421175365ea3.streamlock.net/live/smil:switch.smil/playlist.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/funradiofr.m3u8"
+"https://event.vedge.infomaniak.com/livecast/ikgeneration-tv/manifest.m3u8"
+"https://amg01596-gongnetworks-gong-ono-vh5f2.amagi.tv/1080p-vtt/index.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/gulli/browser-HLS8/gulli.m3u8"
+"https://origin-caf900c010ea8046.live.6cloud.fr/out/v1/c65696b42ca34e97a9b5f54758d6dd50/cmaf/hlsfmp4_short_q2hyb21h_gulli_sd_index.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/gulli/browser-dash/gulli.mpd"
+"https://srv.webtvmanager.fr:3697/stream/play.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/icielsass.m3u8"
+"https://live.creacast.com/iltv/smil:iltv.smil/playlist.m3u8"
+"https://live-kto.akamaized.net/hls/live/2033284/KTO/master.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/kto/browser-dash/kto.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/kto/browser-HLS8/kto.m3u8"
+"https://dshn8inoshngm.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-gac2i63dmu8b7/LEquipe_FR.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/lequipe21/browser-HLS8/lequipe21.m3u8"
+"https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/dmotion/py/eqpe/equipe.m3u8"
+"https://d3awaj0f2u3w26.cloudfront.net/4/media.m3u8"
+"https://raw.githubusercontent.com/ipstreet312/freeiptv/master/ressources/btv/py/lci1.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/lci/browser-dash/lci.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/lci/browser-HLS8/lci.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/lcp/browser-HLS8/lcp.m3u8"
+"https://figarotv-live.freecaster.com/live/freecaster/figarotv.m3u8"
+"https://static.lefigaro.fr/secom/tnt.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/lemedia.m3u8"
+"https://live.creacast.com/littoralfm-ch1/stream/playlist.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/lyoncapitale.m3u8"
+"https://viamotionlsi.netplus.ch/live/eds/m6hd/browser-HLS8/m6hd.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/m6hd/browser-dash/m6hd.mpd"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/maisonettravaux.m3u8"
+"http://tv.mondeduloisir.fr:1935/tixtv/smil:web.smil/playlist.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/radiokaraoke.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/mensuptv.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/mezzo/browser-HLS8/mezzo.m3u8"
+"https://fl718492-exthls-p1.flovp.com/fl718492/live/live.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/mouv.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/mtvfrance/browser-HLS8/mtvfrance.m3u8"
+"https://streamtv.cmediahosthosting.net:3046/live/mygospeltvlive.m3u8"
+"https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01255-secomcofites-my-myzen-en-plex/playlist.m3u8"
+"https://ktismaservers.in:3394/stream/play.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/novo19/browser-HLS8/novo19.m3u8"
+"https://vdo2.pro-fhi.net:3207/stream/play.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/paramount/browser-HLS8/paramount.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/planeteplus/browser-HLS8/planeteplus.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/publicsenat.m3u8"
+"https://event.vedge.infomaniak.com/livecast/ikpuissancetelevision/manifest.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/radiofrontieres.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/radiokaraoke-2.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-HLS8/rmcdecouverte.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/rmcdecouverte/browser-dash/rmcdecouverte.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/cherie25/browser-HLS8/cherie25.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/numero23/browser-HLS8/numero23.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/rtl2.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/sudradio.m3u8"
+"https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/t18/t18-dm.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/t18/browser-HLS8/t18.m3u8"
+"https://videas.agglo-lenslievin.fr/index.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/telenantes.m3u8"
+"https://raw.githubusercontent.com/Sibprod/streams/main/ressources/dm/py/hls/telesud.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-dash/tf1hd.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/tf1hd/browser-HLS8/tf1hd.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/hd1/browser-HLS8/hd1.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/hd1/browser-dash/hd1.mpd"
+"https://viamotionhsi.netplus.ch/live/eds/nt1/browser-HLS8/nt1.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/nt1/browser-dash/nt1.mpd"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(tivi5)/variant.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/tmc/browser-HLS8/tmc.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/escales/browser-HLS8/escales.m3u8"
+"https://tv3v.live-kd.com/live/tv3v/livestream/index.m3u8"
+"https://liveh12.vtvprime.vn/hls/TV5/03.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(seasie)/variant.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(europe)/variant.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(fbs)/variant.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/tv5mondefbs/browser-HLS8/tv5mondefbs.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(info)/variant.m3u8"
+"http://45.235.0.78/TV5_Monde/index.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(pacifique)/variant.m3u8"
+"https://ott.tv5monde.com/Content/HLS/Live/channel(style1)/variant.m3u8"
+"https://tv7.live-kd.com/live/tv7/livestream/playlist.m3u8"
+"https://streamtv.cdn.dvmr.fr/TV78/ngrp:tv78.stream_all/master.m3u8"
+"https://strhlslb01.streamakaci.tv/str_tvfinance_tvfinance/str_tvfinance_multi/playlist.m3u8"
+"https://live.creacast.com/albi-tv-ch1/stream/playlist.m3u8"
+"https://streamtv.cdn.dvmr.fr/TVR/ngrp:tvr.stream_all/master.m3u8"
+"https://54627d4fc5996.streamlock.net/tzik/tzik/chunklist.m3u8"
+"https://5dd226f8f01e8.streamlock.net/via-matele-live/matelelive_1080/playlist.m3u8"
+"https://live.creacast.com/mirabelletv/smil:mirabelletv.smil/playlist.m3u8"
+"https://streamer01.myvideoplace.tv/streamer02/hls/MDS_VIA_PAD_301117.m3u8"
+"https://srv.webtvmanager.fr:3970/live/viatelepaeselive.m3u8"
+"https://vosgestv.live-kd.com/live/vosgestv/vosgestv/playlist.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/w9/browser-HLS8/w9.m3u8"
+"https://viamotionhsi.netplus.ch/live/eds/w9/browser-dash/w9.mpd"
+"https://4f2a3e1ff5274297b115cf0f7da1c2cd.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-819-FR-SONYONESRIESCOMDIE-LG_FR/playlist.m3u8"
+"https://483a1e90c18641c9a6d27becd41ad892.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-821-FR-SONYONESRIESTHRILLER-LG_FR/playlist.m3u8"
+"https://7aa9671895264ec9a384dfed1b992171.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-818-FR-SONYONEHITSCOMDIE-LG_FR/playlist.m3u8"
+"https://5098a8b860504a3690fd2e7c0a18d68f.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-817-FR-SONYONEHITSACTION-LG_FR/playlist.m3u8"
+"https://49d735318d6b4c30a24a7997ea594e1b.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-820-FR-SONYONEFAVORIS-LG_FR/playlist.m3u8"
+"https://06cb85ad6ccb4a6b97f561e62d16ad3f.mediatailor.us-west-2.amazonaws.com/v1/master/ba62fe743df0fe93366eba3a257d792884136c7f/LINEAR-822-FR-SONYONETHEBLACKLIST-LG_FR/playlist.m3u8"
+]
+# ▲▲▲  Ajoute ou supprime des lignes autant que tu veux  ▲▲▲
 async def ok(url):
     try:
         async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=2)) as s:
             t0=time.time()
-            async with s.get(url,headers={"User-Agent":"VLC"}) as r:
+            async with s.get(url,headers={"User-Agent":"VLC"},allow_redirects=True) as r:
                 lat=(time.time()-t0)*1000
-                return r.status==200 and lat<=MAX_MS
-    except: return False
+                probe=await asyncio.create_subprocess_exec(
+                    "ffprobe","-v","error","-select_streams","v:0",
+                    "-show_entries","stream=height","-of","csv=p=0",url,
+                    stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.DEVNULL)
+                stdout,_=await probe.communicate()
+                h=int(stdout.decode().strip() or 0)
+                return r.status==200 and lat<=MAX_MS and h>=MIN_H, h, lat
+    except: return False, 0, 0
 async def main():
-    with open(M3U_IN, encoding="utf-8") as f: lines=f.readlines()
-    ch=[]; name=""
-    for l in lines:
+    with open(M3U_IN,encoding="utf-8") as f: raw=f.read().strip().splitlines()
+    out=["#EXTM3U"]; name=""; fixes=0
+    for l in raw:
         l=l.strip()
         if l.startswith("#EXTINF"): name=l.split(",")[-1].strip()
-        elif l and not l.startswith("#"): ch.append((name,l))
-    good=[(n,u) for n,u in ch if await ok(u)]
+        elif l and not l.startswith("#"):
+            ok_flag, h, lat=await ok(l)
+            if ok_flag:
+                out+=["#EXTINF:-1,{} ({}p {:.0f}ms)".format(name,h,lat),l]
+            else:
+                pick=random.choice(POOL)
+                out+=["#EXTINF:-1,{} ➜ fallback (auto-fix)".format(name),pick]
+                fixes+=1
     os.makedirs(os.path.dirname(M3U_OUT),exist_ok=True)
-    with open(M3U_OUT,"w") as f:
-        f.write("#EXTM3U\n")
-        for n,u in good: f.write(f"#EXTINF:-1,{n}\n{u}\n")
-    print(json.dumps({"valid":len(good)}))
+    with open(M3U_OUT,"w",encoding="utf-8") as f: f.write("\n".join(out)+"\n")
+    print(json.dumps({"kept":len(out)//2,"auto_fixes":fixes}))
 if __name__=="__main__": asyncio.run(main())
