@@ -9,9 +9,13 @@ async def ok(url):
                 return r.status==200 and lat<=MAX_MS
     except: return False
 async def main():
-    channels=[(l.split(",")[-1].strip(),next(lines)) for l in open(M3U_IN) if l.startswith("#EXTINF")]
-    lines=iter([l.strip() for l in open(M3U_IN) if l and not l.startswith("#")])
-    good=[(n,u) for n,u in channels if await ok(u)]
+    with open(M3U_IN, encoding="utf-8") as f: lines=f.readlines()
+    ch=[]; name=""
+    for l in lines:
+        l=l.strip()
+        if l.startswith("#EXTINF"): name=l.split(",")[-1].strip()
+        elif l and not l.startswith("#"): ch.append((name,l))
+    good=[(n,u) for n,u in ch if await ok(u)]
     os.makedirs(os.path.dirname(M3U_OUT),exist_ok=True)
     with open(M3U_OUT,"w") as f:
         f.write("#EXTM3U\n")
