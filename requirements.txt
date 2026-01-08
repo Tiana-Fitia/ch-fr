@@ -1,1 +1,4 @@
-onnxruntime numpy ffmpeg-python streamlink aiohttp psutil
+onnxruntime==1.17.1
+numpy==1.24.4
+aiohttp==3.9.1
+psutil==5.9.5
