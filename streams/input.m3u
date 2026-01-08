@@ -1,5 +1,3 @@
 #EXTM3U
-#EXTINF:-1,France 2
-https://live.francetv.fr/simulcast/France_2/hls_v1/France_2.m3u8
-#EXTINF:-1,Arte
-https://artelive-lh.akamaihd.net/i/artelive_fr@344805/index_1_av-p.m3u8
+#EXTINF:-1,Test 720p
+https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
