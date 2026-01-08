@@ -1,5 +1,0 @@
-ai_optimizer/
-├── stream_optimizer.py
-├── predictor.py
-├── config.py
-└── requirements.txt
