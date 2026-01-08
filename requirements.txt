@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-aiohttp
-scikit-learn
-numpy
-ffmpeg-python
