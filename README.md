@@ -34,3 +34,5 @@ Playlist **100 % légale** des chaînes **françaises gratuites et en clair** �
 
 1. Ouvre **VLC**
 2. `Ctrl + N` → colle l’URL :
+
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
