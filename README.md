@@ -36,3 +36,15 @@ Playlist **100 % légale** des chaînes **françaises gratuites et en clair** �
 2. `Ctrl + N` → colle l’URL :
 
 [![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
+
+
+
+
+
+
+
+
+![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github)
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](http://creativecommons.org/publicdomain/zero/1.0/)
+[![Build](https://img.shields.io/github/workflow/status/Tiana-Fitia/ch-fr/CI?label=build&logo=github)](https://github.com/Tiana-Fitia/ch-fr/actions)
+[![Release](https://img.shields.io/github/v/release/Tiana-Fitia/ch-fr?include_prereleases)](https://github.com/Tiana-Fitia/ch-fr/releases)
