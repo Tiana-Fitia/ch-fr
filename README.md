@@ -1,4 +1,5 @@
-[![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/Tiana-Fitia/ch-fr)[![Build](https://img.shields.io/github/workflow/status/Tiana-Fitia/ch-fr/CI?label=build&logo=github)](https://github.com/Tiana-Fitia/ch-fr/actions)
+[![GitHub](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/Tiana-Fitia/ch-fr)
+[![Build](https://img.shields.io/github/workflow/status/Tiana-Fitia/ch-fr/CI?label=build&logo=github)](https://github.com/Tiana-Fitia/ch-fr/actions)
 [![Release](https://img.shields.io/github/v/release/Tiana-Fitia/ch-fr?include_prereleases)](https://github.com/Tiana-Fitia/ch-fr/releases)
 
 
